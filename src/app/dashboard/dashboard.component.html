@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="loadPage">
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <form class="form-inline my-2 my-lg-0">
+        <mat-form-field appearance="fill">
+            <mat-label>Genre</mat-label>
+            <mat-select [(value)]="selectedGenre">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let genre of genres" value="option1">Option 1</mat-option>
+              <mat-option value="option2">Option 2</mat-option>
+              <mat-option value="option3">Option 3</mat-option>
+            </mat-select>
+          </mat-form-field>
+        <input class="form-control mr-sm-2" [(ngModel)]="keyword" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
