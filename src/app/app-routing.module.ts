@@ -15,7 +15,7 @@ const routes: Routes = [
         //data: { roles: [Role.User] }
     },
     {
-        path: 'movie/view:id',
+        path: 'movie/view/:id',
         component: ViewMovieComponent,
         canActivate: [AuthGuard],
         //data: { roles: [Role.User] }
@@ -27,7 +27,7 @@ const routes: Routes = [
         data: { roles: [Role.Admin] }
     },
     {
-        path: 'movie/edit:id',
+        path: 'movie/edit/:id',
         component: CreateMovieComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin] }

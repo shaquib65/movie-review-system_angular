@@ -21,8 +21,14 @@ export class MovieService {
                 return resp;
             }));
     }
-    getMovieByGenre(genre:number) {
-        return this.http.get<any>(`${environment.apiUrl}/Movie/getMoviesByGenre/${genre}`)
+    getMovieByGenre() {
+        return this.http.get<any>(`${environment.apiUrl}/Movie/getMoviesByGenre/0`)
+            .pipe(map(resp => {
+                return resp;
+            }));
+    }
+    getMovieById(movieId:number) {
+        return this.http.get<any>(`${environment.apiUrl}/Movie/getMoviesByMovieId/${movieId}`)
             .pipe(map(resp => {
                 return resp;
             }));

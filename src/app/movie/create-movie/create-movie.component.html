@@ -1,1 +1,141 @@
-<p>create-movie works!</p>
+<!-- Toolbar -->
+<mat-toolbar class="header">
+    <span class="title-center mat-h1">Movie</span>
+</mat-toolbar>
+
+<!-- wrapper -->
+<mat-sidenav-container *ngIf="showForm">
+    <mat-sidenav-content>
+        <form [formGroup]="movieForm" (ngSubmit)="submitForm()" novalidate>
+            <!-- Title -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <input matInput placeholder="Title" formControlName="title">
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('title', 'required')">
+                        You must provide a <strong>title</strong>
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <!-- Plot -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <textarea matInput placeholder="Plot" formControlName="plot"></textarea>
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('plot', 'required')">
+                        You must provide a <strong>Plot</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <!-- Cast -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <input matInput placeholder="Cast & Crew(Comma Seperated)" formControlName="castCrew">
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('castCrew', 'required')">
+                        You must provide a <strong>Cast & Crew</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <!-- releasedate -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <input matInput readonly [matDatepicker]="picker" placeholder="Release Date"
+                        formControlName="releaseDate" (dateChange)="date($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('releaseDate', 'required')">
+                        Please enter <strong>Release Date</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <!-- budget -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <input matInput placeholder="Budget" formControlName="budget">
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('budget', 'required')">
+                        You must provide a <strong>Budget</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <!-- language -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <input matInput placeholder="Language" formControlName="language">
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('language', 'required')">
+                        You must provide a <strong>language</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <!-- coverimage -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <input matInput placeholder="Enter Url for Cover Image" formControlName="coverImage">
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('coverImage', 'required')">
+                        You must provide a <strong>Cover Image</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+
+            <!-- trailerurl -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width">
+                    <input matInput placeholder="Trailer URL" formControlName="trailerUrl">
+                    <!-- error -->
+                    <mat-error *ngIf="errorHandling('trailerUrl', 'required')">
+                        You must provide a <strong>Trailer URL</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <!-- genre -->
+            <div class="row">
+                <mat-form-field class="col-lg-2 example-full-width multiple-items">
+                    <mat-label>Genre</mat-label>
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let genre of genreArray" [selectable]="selectable" [removable]="removable"
+                            (removed)="remove(genre)">
+                            {{genre}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Add Genre" #genreInput [formControl]="currentGenre" [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let genre of genres" [value]="genre">
+                            {{genre.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+
+            <!-- Submit -->
+
+            <div class="button-wrapper example-full-width">
+                <button mat-flat-button color="primary">Submit</button>
+            </div>
+
+        </form>
+    </mat-sidenav-content>
+</mat-sidenav-container>
