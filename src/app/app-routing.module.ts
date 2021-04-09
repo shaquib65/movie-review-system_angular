@@ -30,7 +30,7 @@ const routes: Routes = [
         path: 'movie/edit/:id',
         component: CreateMovieComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] }
+        //data: { roles: [Role.Admin] }
     },
     {
         path: '',

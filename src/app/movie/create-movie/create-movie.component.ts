@@ -24,18 +24,18 @@ export class CreateMovieComponent implements OnInit {
   genreArray = new Array<string>();
   genreIntArray = new Array<number>();
   genres: [];
-  movieModel:Movie;
+  movieModel: Movie;
   @ViewChild('chipList', { static: true }) chipList;
   @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   currentGenre = new FormControl();
-  showForm= false;
-  
+  showForm = false;
+
   constructor(public fb: FormBuilder,
     private movieService: MovieService,
     private route: ActivatedRoute,
-    private router:Router) {
+    private router: Router) {
 
   }
 
@@ -46,16 +46,16 @@ export class CreateMovieComponent implements OnInit {
       this.movieService.getAllGenre().subscribe(resp => {
         this.genres = resp;
         if (this.movieId != null && this.movieId != 0) {
-          this.movieService.getMovieById(this.movieId).subscribe(movie=>{
-            
+          this.movieService.getMovieById(this.movieId).subscribe(movie => {
+
             this.movieModel = movie;
             delete this.movieModel.overallRating;
             delete this.movieModel.currentReview;
             delete this.movieModel.reviews;
             this.initializeForm();
           })
-        } 
-        else{
+        }
+        else {
           this.initializeForm();
         }
       })
@@ -75,10 +75,10 @@ export class CreateMovieComponent implements OnInit {
       trailerUrl: new FormControl('', [Validators.required]),
       genres: new FormControl(this.genreIntArray, [Validators.required]),
     });
-    if(this.movieId != null && this.movieId != 0){
+    if (this.movieId != null && this.movieId != 0) {
       this.movieForm.setValue(this.movieModel);
     }
-    this.showForm= true;
+    this.showForm = true;
   }
   date(e) {
     var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
@@ -105,7 +105,7 @@ export class CreateMovieComponent implements OnInit {
       this.genreArray.splice(index, 1);
     }
   }
-  
+
   selected(event: MatAutocompleteSelectedEvent): void {
     debugger;
     this.genreArray.push(event.option.viewValue);
@@ -115,23 +115,24 @@ export class CreateMovieComponent implements OnInit {
   public errorHandling = (control: string, error: string) => {
     return this.movieForm.controls[control].hasError(error);
   }
-  submitForm(){
-    if(this.movieId != null && this.movieId !=0){
-      this.movieService.createMovie(this.movieForm.value).subscribe(resp=>{
-        if(resp.movieId != 0){
+  submitForm() {
+    if (this.movieId != null && this.movieId != 0) {
+      this.movieService.createMovie(this.movieForm.value).subscribe(resp => {
+        if (resp.movieId != 0) {
           window.alert("Record Created");
         }
-        else{
+        else {
           window.alert("Error");
         }
-        
+
       })
     }
-    else{
-      
-    }
-    
-    debugger;
+    else {
 
+      this.movieService.updateMovie(this.movieForm.value).subscribe(resp => {
+        window.alert("Record Updated");
+      });
+
+    }
   }
 }

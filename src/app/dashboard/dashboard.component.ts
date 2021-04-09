@@ -12,8 +12,9 @@ import { MovieService } from '@app/_services/movie.service';
 export class DashboardComponent implements OnInit {
   user: User;
   keyword:string;
-  selectedGenre:string;
-  movieList:Movie;
+  selectedGenre:number;
+  movieList:Movie[];
+  originalMovieList:Movie[];
   genres:[];
   loadPage=false;
   constructor(
@@ -24,21 +25,50 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initialize();
+  }
+
+  initialize(){
     this.movieService.getAllGenre().subscribe(resp=>{
       this.genres =  resp;
       
       this.movieService
-      .getMovieByGenre().subscribe((movieData:Movie)=>{
-        this.movieList = new Movie();
+      .getMovieByGenre().subscribe((movieData:Movie[])=>{
+        this.movieList = new Array<Movie>();
+        this.originalMovieList = new Array<Movie>();
+        this.originalMovieList = [...movieData];
         this.movieList = movieData;
         this.loadPage = true;
       })
     })
   }
+
   searchMovie(){
+    let tempArray = [...this.originalMovieList];
+    if(this.selectedGenre != null && this.selectedGenre.toString() != '0'){
+      tempArray = tempArray.filter(x=>x.genres.includes(this.selectedGenre));
+    }
+    if(this.keyword != ""){
+      tempArray = tempArray.filter(x=>x.title.includes(this.keyword));
+    }
+    this.movieList = [...tempArray];
 
   }
+
   createNewMovie(){
-    this.router.navigateByUrl('/movie/create')
+    this.router.navigateByUrl('/movie/create');
+  }
+
+  editMovie(movieId){
+    this.router.navigateByUrl('/movie/edit/'+movieId);
+  }
+  deleteMovie(movieId){
+    this.movieService.deleteMovie(movieId).subscribe(resp=>{
+      window.alert("Succesfully Deleted");
+      this.movieList.filter(x=>x.movieId != movieId);
+    })
+  }
+  viewMovie(movieId){
+    this.router.navigateByUrl('/movie/view/'+movieId);
   }
 }

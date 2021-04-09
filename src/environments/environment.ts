@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'https://moviereviewsystem.azurewebsites.net/api'
+    apiUrl: 'http://localhost:61955/api'
 };
 
 /*

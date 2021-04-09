@@ -5,14 +5,15 @@
       <button mat-stroked-button color="primary" (click)="createNewMovie()">Create</button>
       <mat-form-field appearance="outline">
         <mat-label>Genre</mat-label>
-        <mat-select [(value)]="selectedGenre">
-          <mat-option *ngFor="let genre of genres" value="genre.genreId">{{genre.name}}</mat-option>
+        <mat-select [(value)]="selectedGenre" (selectionChange)="searchMovie()">
+          <mat-option  value="0">None</mat-option>
+          <mat-option *ngFor="let genre of genres" [value]="genre.genreId">{{genre.name}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Search</mat-label>
         <input matInput [(ngModel)]="keyword" name="keyword" type="search">
-        <button mat-icon-button matSuffix>
+        <button (click)="searchMovie()" mat-icon-button matSuffix>
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
@@ -30,10 +31,10 @@
           <mat-icon class="yellow-icon">star</mat-icon>{{movie.overallRating}}
         </mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      <img (click)="viewMovie(movie.movieId)" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
 
       <mat-card-actions>
-        <button mat-button>EDIT</button>
+        <button mat-button (click)="editMovie(movie.movieId)">EDIT</button>
         <button mat-button>DELETE</button>
       </mat-card-actions>
     </mat-card>

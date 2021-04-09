@@ -39,4 +39,17 @@ export class MovieService {
                 return resp;
             }));
     }
+    deleteMovie(movieId){
+        return this.http.get<any>(`${environment.apiUrl}/Movie/deleteMovie/${movieId}`)
+            .pipe(map(resp => {
+                return resp;
+            }));
+    }
+    
+    updateMovie(model:Movie) {
+        return this.http.post<any>(`${environment.apiUrl}/Movie/updateMovie`, { model })
+            .pipe(map(resp => {
+                return resp;
+            }));
+    }
 }
